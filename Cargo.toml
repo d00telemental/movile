@@ -1,0 +1,11 @@
+[package]
+name = "movile"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.86"
+argh = "0.1.12"
+console = "0.15.8"
+goblin = { version = "0.8.2", default-features = false, features = ["pe64"] }
+indicatif = "0.17.8"
