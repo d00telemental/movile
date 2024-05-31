@@ -47,8 +47,7 @@ fn main_internal(cli: &Cli) -> Result<(), anyhow::Error> {
 
     let section = find_text_section(&executable)
         .inspect(|&sec| con::info_kv("found .text",
-            format!("pointer to raw data = 0x{:X}, size of raw data = {}",
-                sec.pointer_to_raw_data, HumanBytes(sec.size_of_raw_data as u64))))
+            format!("pointer to raw data = 0x{:X}", sec.pointer_to_raw_data)))
         .inspect_err(|_| con::info("failed to find .text"))?;
 
     let text = {
@@ -65,7 +64,8 @@ fn main_internal(cli: &Cli) -> Result<(), anyhow::Error> {
     )?.progress_chars("##-");
     let progress_bar = ProgressBar::new(text.len() as u64).with_style(progress_style);
 
-    con::info("scanning .text for a code cave");
+    con::info_kv("scanning .text for int3 sequences",
+        format!("size of raw data = {}", HumanBytes(section.size_of_raw_data as u64)));
 
     let mut matches_cc = Vec::new();
 
